@@ -1,0 +1,93 @@
+
+import time
+
+#Defining Light Class
+class Light:
+    def __init__(self, name, is_on = False):
+        self.name = name
+        self.is_on = is_on
+
+    def turn_on(self):
+        self.is_on = True
+        print(f"The {self.name} light is now ON.")
+
+    def turn_off(self):
+        self.is_on = False
+        print(f"The {self.name} light is now OFF.")
+
+#Defining Input Class        
+class Input:
+    def __init__(self, name, is_on = False):
+        self.name = name  
+        self.is_on = is_on
+
+    def turn_on(self):
+        self.is_on = True
+        print(f"{self.name} is now ON.")
+
+    def turn_off(self):
+        self.is_on = False
+        print(f"{self.name} is now OFF.")
+
+#Defining the lights as an array
+Lights = [Light(f"L_{i+1}") for i in range(16)] # Creates L_1, L_2, L_3,...L_16
+
+#Defining the Inputs as an araray
+Inputs = [Input(f"I{i+1}") for i in range(3)]  # Creates I1, I2, I3
+
+#Defining function to turn on each light consecutively after 1 second
+def Light_Scroll():
+    for Light in Lights:
+        Light.turn_on()
+        time.sleep(1)
+        Light.turn_off()
+
+#Defining function to turn on all lights at the same time       
+def All_Lights_On():
+    for Light in Lights:
+        Light.turn_on()
+
+#Defining function to turn off all lights at the same time       
+def All_Lights_Off():
+    for Light in Lights:
+        Light.turn_off()
+
+#Defining function to turn on and off each light simultaneously in reverse
+def Light_Scroll_Reverse():
+    for Light in Lights[::-1]:
+        Light.turn_on()
+        time.sleep(1)
+        Light.turn_off()
+
+#Program Display
+
+print("*************************
+ Light Scrolling Program
+*************************
+Input 1 : I1
+Input 2 : I2
+Input 3 : I3
+Exit : To stop the program")
+while True:
+    user_input = input("Enter the input which you want to turn on (I1, I2, I3, Exit): ").strip() #user should enter which input they would like to turn on
+
+    if user_input == "Exit":
+        print("Program has stopped. Thank you!")
+        break
+    if user_input.startswith("I") and user_input[1:].isdigit():
+        index = int(user_input[1:]) - 1
+        if 0 <= index < len(Inputs):
+            Inputs[index].turn_on()
+
+            # Action based on which input is used
+            if index == 0: 
+                Light_Scroll()
+            elif index == 1:
+                All_Lights_On()
+            elif index == 2:
+                Light_Scroll_Reverse()
+            Inputs[index].turn_off()        
+        else:
+            print("Invalid input number! Please try again.")
+    else:
+        print("Invalid input! Please try again.")
